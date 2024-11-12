@@ -1,0 +1,4 @@
+.kamal
+.DS_Store
+.*  
+!/.gitignore
