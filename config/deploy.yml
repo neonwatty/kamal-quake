@@ -11,7 +11,7 @@ servers:
         - "80"
 
 proxy:
-  ssl: true
+  ssl: false
   host: ytgiphy.xyz
   app_port: 80
   healthcheck:
@@ -20,7 +20,7 @@ proxy:
     timeout: 10
 
 env:
-  SERVER: ytgiphy.xyz
+  SERVER: 35.166.234.148
   HTTP_PORT: 80
 
 registry:
