@@ -6,8 +6,9 @@ servers:
       - 35.166.234.148
     options:
       publish:
-        - "80:80"
         - "27960:27960"
+      expose:
+        - "80"
 
 proxy:
   ssl: true
