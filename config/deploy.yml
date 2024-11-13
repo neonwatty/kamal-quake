@@ -13,7 +13,6 @@ servers:
 proxy:
   ssl: true
     host: ytgiphy.xyz
-  #   app_port: 80
   healthcheck:
     interval: 3
     path: /
