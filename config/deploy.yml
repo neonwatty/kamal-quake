@@ -12,7 +12,7 @@ servers:
 
 proxy:
   ssl: true
-    host: ytgiphy.xyz
+  host: ytgiphy.xyz
   healthcheck:
     interval: 3
     path: /
