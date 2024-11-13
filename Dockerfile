@@ -1,3 +1,1 @@
-FROM treyyoder/quakejs:latest 
-
-#ghcr.io/neonwatty/quakejs:latest
+FROM ghcr.io/neonwatty/quakejs:latest
