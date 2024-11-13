@@ -10,14 +10,14 @@ servers:
       expose:
         - "80"
 
-proxy:
-  ssl: false
-  host: ytgiphy.xyz
-  app_port: 80
-  healthcheck:
-    interval: 3
-    path: /
-    timeout: 10
+# proxy:
+#   ssl: false
+#   host: ytgiphy.xyz
+#   app_port: 80
+#   healthcheck:
+#     interval: 3
+#     path: /
+#     timeout: 10
 
 env:
   SERVER: 35.166.234.148
