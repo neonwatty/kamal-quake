@@ -1,13 +1,26 @@
 service: quakejs
-image: neonwatty/quakejs
+image: neonwatty/quakejs-demo
 servers:
   web:
-    - 35.94.171.93
+    hosts:
+      - 35.166.234.148
+    options:
+      publish:
+        - "80:80"
+        - "27960:27960"
+
 proxy:
   ssl: true
   host: ytgiphy.xyz
-  # Proxy connects to your container on port 80 by default.
-  # app_port: 3000
+  app_port: 80
+  healthcheck:
+    interval: 3
+    path: /
+    timeout: 10
+
+env:
+  SERVER: ytgiphy.xyz
+  HTTP_PORT: 80
 
 registry:
   server: ghcr.io
