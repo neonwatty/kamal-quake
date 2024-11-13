@@ -11,7 +11,7 @@ servers:
         - "80"
 
 proxy:
-  ssl: false
+  ssl: true
   host: ytgiphy.xyz
   healthcheck:
     interval: 3
