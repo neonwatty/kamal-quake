@@ -3,7 +3,7 @@ image: neonwatty/quakejs-demo
 servers:
   web:
     hosts:
-      - 35.166.234.148
+      - 44.226.127.200
     options:
       publish:
         - "27960:27960"
@@ -19,7 +19,7 @@ proxy:
     timeout: 10
 
 env:
-  SERVER: 35.166.234.148
+  SERVER: ytgiphy.xyz # 44.226.127.200
   HTTP_PORT: 80
 
 registry:
