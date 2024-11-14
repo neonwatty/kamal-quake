@@ -1,1 +1,1 @@
-FROM ghcr.io/neonwatty/quakejs:latest
+FROM ghcr.io/neonwatty/quakejs-https:latest
