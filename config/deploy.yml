@@ -9,6 +9,7 @@ servers:
         - "27960:27960"
       expose:
         - "80"
+        - "443"
 
 proxy:
   ssl: true
