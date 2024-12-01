@@ -3,24 +3,25 @@ image: neonwatty/quakejs-demo
 servers:
   web:
     hosts:
-      - 44.226.127.200
+      - 54.69.135.204
     options:
       publish:
-        - "27960:27960"
+        - "27961:27961"
       expose:
         - "80"
-        - "27960"
+        - "27961"
 
 proxy:
   ssl: true
   host: ytgiphy.xyz
+  app_port: 80
   healthcheck:
     interval: 3
     path: /
     timeout: 10
 
 env:
-  SERVER: ytgiphy.xyz # 44.226.127.200
+  SERVER: ytgiphy.xyz # 54.69.135.204
   HTTP_PORT: 80
 
 registry:
