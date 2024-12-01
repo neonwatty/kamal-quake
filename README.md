@@ -4,20 +4,22 @@ This repo contains a simple recipe for self-hosting [quakejs](https://github.com
 
 A table of contents for recommended setup and deployment using this pattern is below:
 
-- [hosting requirements]()
-  - [hosting provider]()
-  - [recommended minimum machine specs]()
-  - [docker registry]()
-  - [firewall ports]()
-- [kamal deployment]()
-  - [customizing the config]()
-  - [setup and deployment]()
-- [what to do at first play]()
-  - [the quakejs load screen]()
-  - [keyboard controls]()
-  - [creating a multiplayer game]()
+- [hosting requirements](#hosting-requirements)
+  - [hosting provider](#hosting-provider)
+  - [minimum machine specs](#minimum-machine-specs)
+  - [docker registry](#docker-registry)
+  - [ssh into your machine](#ssh-into-your-machine)
+  - [firewall ports](#firewall-ports)
+- [kamal deployment](#kamal-deployment)
+  - [installing kamal](#installing-kamal)
+  - [customizing the config](#customizing-the-config)
+  - [deploy](#deploy)
+- [multiplayer setup](#multiplayer-setup)
+  - [the first screen](#the-first-screen)
+  - [keyboard controls](#keyboard-controls)
+  - [creating a multiplayer game](#creating-a-multiplayer-game)
 
-## hosting machine requirements
+## hosting requirements
 
 ### hosting providers
 
@@ -33,6 +35,20 @@ Kamal 2 currently requires an available registry to push your version of the ima
 
 The Kamal team is working to relax this requirement so that in the future no registry will be required.
 
+### ssh into your machine
+
+After ssh-ing into your machine, create a docker user group
+
+```bash
+sudo groupadd docker
+```
+
+Next, add your default user to the docker user group
+
+```bash
+sudo usermod -aG docker <default user name>
+```
+
 ### firewall ports
 
 Depending on your choice of usage (http vs https) certain ports must be left open on the security settings / firewall of your hosting instance
@@ -42,7 +58,9 @@ Depending on your choice of usage (http vs https) certain ports must be left ope
 
 If this is **not** done, you will be stuck in the loading screen of the game.
 
-## kamal setup
+## kamal deployment
+
+### installing kamal
 
 Once you've setup a hosting machine and docker registry as described above, you are ready to setup / deploy your instance of quakejs (using http or https at your discretion).
 
@@ -54,4 +72,62 @@ gem install kamal
 
 If you need to install ruby first [follow these instructions](https://www.ruby-lang.org/en/documentation/installation/).
 
-Next pull this repository and adjust its kamal deployment config file, located in
+### customizing the config
+
+Next pull this repository and adjust its kamal deployment config file, located at
+
+```bash
+config/deployyml`
+```
+
+This config file is repeated below, with `#TODO` annotations indicating the key-value pairs you must customize. These include the IP address of your machine, your url, docker registry, and docker registry credentials.
+
+```yaml
+service: quakejs # <-- (optional) replace with the name of your service
+image: <your-username>/<your-image> # TODO
+servers:
+  web:
+    hosts:
+      - <IP address of your machine> # TODO
+    options:
+      publish:
+        - "27961:27961"
+        - "27960:27960"
+      expose:
+        - "80"
+
+proxy:
+  ssl: true
+  host: <your-web-address.xyz> # TODO
+  app_port: 80
+  healthcheck:
+    interval: 3
+    path: /
+    timeout: 10
+
+env:
+  SERVER: <your-web-address.xyz> # TODO
+  HTTP_PORT: 80
+
+registry:
+  server: <your docker registry> # TODO
+  username: <your docker registry username> # TODO
+  password:
+    - <your docker registry password> #TODO
+
+builder:
+  arch: amd64
+
+ssh:
+  user: ubuntu
+```
+
+### deploy
+
+With the previous steps completed, execute the following at the root of this repository to create your instance of quakejs.
+
+```bash
+kamal setup
+```
+
+This will pull all requisite images, push your version to your preferred docker registry, setup a reverse proxy for https, and create requisite SSL certs via letsencrypt.
