@@ -12,4 +12,6 @@ A table of contents for recommended setup and deployment is below:
   - [customizing the config]()
   - [setup and deployment]()
 - [what to do at first play]()
+  - [the quakejs load screen]()
+  - [keyboard controls]()
   - [creating a multiplayer game]()
