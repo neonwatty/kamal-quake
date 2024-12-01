@@ -14,8 +14,8 @@ A table of contents for recommended setup and deployment using this pattern is b
   - [installing kamal](#installing-kamal)
   - [customizing the config](#customizing-the-config)
   - [deploy](#deploy)
-- [multiplayer setup](#multiplayer-setup)
-  - [the first screen](#the-first-screen)
+- [multiplayer gaming](#multiplayer-gaming)
+  - [what every player should see](#what-every-player-should-see)
   - [keyboard controls](#keyboard-controls)
   - [creating a multiplayer game](#creating-a-multiplayer-game)
 
@@ -91,8 +91,8 @@ servers:
       - <IP address of your machine> # TODO
     options:
       publish:
-        - "27961:27961"
-        - "27960:27960"
+        - "27961:27961" # <-- for https usage
+        - "27960:27960" # <-- for http usage
       expose:
         - "80"
 
@@ -131,3 +131,17 @@ kamal setup
 ```
 
 This will pull all requisite images, push your version to your preferred docker registry, setup a reverse proxy for https, and create requisite SSL certs via letsencrypt.
+
+## multiplayer gaming
+
+### what every player should see
+
+Every player should see the following sequence of screens **when they first visit your url**. These screens correctly cue the player to accept game asset download to their browser, and show download progress of game assets.
+
+#### Screen 1: install accept screen
+
+The first screen every user should see is shown below. It requests permission from the player to download game assets to their chosen browser.
+
+<p align="center">
+<img align="center" src="https://github.com/jermwatt/readme_gifs/blob/main/meme-search-pro-search-example.gif" height="325">
+</p>

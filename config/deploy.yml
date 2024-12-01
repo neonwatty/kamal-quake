@@ -6,9 +6,8 @@ servers:
       - 54.69.135.204
     options:
       publish:
-        - "27961:27961"
-        - "27960:27960"
-        - "9000:9000"
+        - "27961:27961" # <-- for https usage
+        # - "27960:27960"  <-- for http usage
       expose:
         - "80"
 
