@@ -7,9 +7,10 @@ servers:
     options:
       publish:
         - "27961:27961"
+        - "27960:27960"
+        - "9000:9000"
       expose:
         - "80"
-        - "27961"
 
 proxy:
   ssl: true
