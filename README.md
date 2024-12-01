@@ -143,5 +143,35 @@ Every player should see the following sequence of screens **when they first visi
 The first screen every user should see is shown below. It requests permission from the player to download game assets to their chosen browser.
 
 <p align="center">
-<img align="center" src="https://github.com/jermwatt/readme_gifs/blob/main/meme-search-pro-search-example.gif" height="325">
+<img align="center" src="https://github.com/neonwatty/kamal-quake/blob/main/assets/images/first_user_screen.png" height="325">
 </p>
+
+#### Screen 2: download progress screen
+
+The next screen every user should see is shown below. It shows the download progress (to their browser) of game assets.
+
+<p align="center">
+<img align="center" src="https://github.com/neonwatty/kamal-quake/blob/main/assets/images/second_user_screen.png" height="325">
+</p>
+
+#### Screen 3: player lobby screen
+
+Once all assets are downloaded the player enters a lobby screen that will look like the one below.
+
+If no multiplayer game has been created, players will stay in this screen forever.
+
+<p align="center">
+<img align="center" src="https://github.com/neonwatty/kamal-quake/blob/main/assets/images/third_user_screen.png" height="325">
+</p>
+
+#### Screen 4: game options menu
+
+The game host / first player should create a multiplayer game by pressing `escape` to enter the game options menu.
+
+From there a game may be setup by navigating to the `multiplayer` option in the menu.
+
+<p align="center">
+<img align="center" src="https://github.com/neonwatty/kamal-quake/blob/main/assets/images/game_setup_screen.png" height="325">
+</p>
+
+Once a multiplayer game is started every new player will be directed to it automatically.
