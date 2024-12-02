@@ -1,6 +1,6 @@
 # kamal-quake
 
-This repo contains a simple recipe for self-hosting [quakejs](https://github.com/inolen/quakejs) in an https-friendly manner using [kamal 2](https://kamal-deploy.org/). Kamal makes setting up quake with https a breeze - automatically creating / managing a reverse proxy as well as the required self-signed SSL certs using letsencrypt.
+This repo contains a simple recipe for self-hosting [quakejs](https://github.com/inolen/quakejs) in an https-friendly manner using [kamal 2](https://kamal-deploy.org/).  Setting up quakejs with https has been traditionally rather complex, but kamal (and docker) makes it a breeze.  Docker nicely containerizes the app while kamal makes creating / managing a reverse proxy - as well as the required self-signed SSL certs using letsencrypt - a total breeze.
 
 A table of contents for recommended setup and deployment using this pattern is below:
 
