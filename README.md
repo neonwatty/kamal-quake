@@ -22,6 +22,7 @@ A table of contents for recommended setup and deployment using this pattern is b
   - [what every player should see](#what-every-player-should-see)
   - [keyboard controls](#keyboard-controls)
   - [creating a multiplayer game](#creating-a-multiplayer-game)
+  - [joining a multiplayer game](#joining-a-multiplayer-game)
 
 ## hosting requirements
 
@@ -136,7 +137,8 @@ kamal setup
 
 This will pull all requisite images, push your version to your preferred docker registry, setup a reverse proxy for https, and create requisite SSL certs via letsencrypt.
 
-## multiplayer gaming
+
+## creating a multiplayer game
 
 ### what every player should see
 
@@ -178,4 +180,8 @@ From there a game may be setup by navigating to the `multiplayer` option in the 
 <img align="center" src="https://github.com/neonwatty/kamal-quake/blob/main/assets/images/game_setup_screen.png" height="325">
 </p>
 
-Once a multiplayer game is started every new player will be directed to it automatically.
+## joining a multiplayer game
+
+Once a multiplayer game is started every new player will be directed to it automatically.  
+
+If this does not happen press escape to access the game menu.  Navigate to multiplayer games, and choose the game you wish to join.
