@@ -1,6 +1,7 @@
 # kamal-quake
+![Under Construction](https://img.shields.io/badge/status-under_construction-orange?style=for-the-badge)
 
-This repo contains a simple recipe for self-hosting [quakejs](https://github.com/inolen/quakejs) in an https-friendly manner using [kamal 2](https://kamal-deploy.org/).  Setting up quakejs with https has been traditionally rather complex, but kamal (and docker) makes it a breeze.  Docker nicely containerizes the app while kamal makes creating / managing a reverse proxy - as well as the required self-signed SSL certs using letsencrypt - a total breeze.
+This repo contains a [work-in-progress](#remaining-challenges) simple recipe for self-hosting [quakejs](https://github.com/inolen/quakejs) in an https-friendly manner using [kamal 2](https://kamal-deploy.org/).  Setting up quakejs with https has been traditionally rather complex, but kamal (and docker) makes it a breeze.  Docker nicely containerizes the app while kamal makes creating / managing a reverse proxy - as well as the required self-signed SSL certs using letsencrypt - a total breeze.
 
 <p align="center">
 <img align="center" src="https://github.com/jermwatt/readme_gifs/blob/main/kamal-quake-demo.webp" height="325">
@@ -23,6 +24,7 @@ A table of contents for recommended setup and deployment using this pattern is b
   - [keyboard controls](#keyboard-controls)
   - [creating a multiplayer game](#creating-a-multiplayer-game)
   - [joining a multiplayer game](#joining-a-multiplayer-game)
+- [remaining challenges](#remaining-challenges)
 
 ## hosting requirements
 
@@ -185,3 +187,8 @@ From there a game may be setup by navigating to the `multiplayer` option in the 
 Once a multiplayer game is started every new player will be directed to it automatically.  
 
 If this does not happen press escape to access the game menu.  Navigate to multiplayer games, and choose the game you wish to join.
+
+## Remaining challenges
+
+- **Proper secure socket wss setup**: at present this limits play to single player.  The fork of quakejs used under the hoo details secure setup in the section titled [Running Secure Servers (Content, Dedicated, and Web) Quick-Start](https://github.com/begleysm/quakejs?tab=readme-ov-file#baseq3-server-step-by-step), perhaps there is a clue there on how to proceed.
+
