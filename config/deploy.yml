@@ -1,19 +1,20 @@
 service: quakejs
 image: neonwatty/quakejs-demo
+
 servers:
   web:
     hosts:
-      - 54.69.135.204
+      - YOUR_VPS_IP  # Replace with your VPS IP address
     options:
       publish:
-        - "27961:27961" # <-- for https usage
-        # - "27960:27960"  <-- for http usage
-      expose:
-        - "80"
+        - "27961:27961"
+
+volumes:
+  - "/root/.local/share/kamal-proxy/ssl:/etc/ssl/kamal:ro"
 
 proxy:
   ssl: true
-  host: kamal-quake.xyz
+  host: your-domain.xyz  # Replace with your domain
   app_port: 80
   healthcheck:
     interval: 3
@@ -21,8 +22,9 @@ proxy:
     timeout: 10
 
 env:
-  SERVER: kamal-quake.xyz
+  SERVER: your-domain.xyz  # Replace with your domain
   HTTP_PORT: 80
+  GAME_PORT: 27961
 
 registry:
   server: ghcr.io
@@ -32,6 +34,10 @@ registry:
 
 builder:
   arch: amd64
+  context: ../quakejs-https-docker
+  dockerfile: Dockerfile
 
 ssh:
   user: ubuntu
+  keys:
+    - ~/.ssh/your-key.pem  # Replace with your SSH key path
