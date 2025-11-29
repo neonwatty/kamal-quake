@@ -1,194 +1,93 @@
 # kamal-quake
-![Under Construction](https://img.shields.io/badge/status-under_construction-orange?style=for-the-badge)
 
-This repo contains a [work-in-progress](#remaining-challenges) simple recipe for self-hosting [quakejs](https://github.com/inolen/quakejs) in an https-friendly manner using [kamal 2](https://kamal-deploy.org/).  Setting up quakejs with https has been traditionally rather complex, but kamal (and docker) makes it a breeze.  Docker nicely containerizes the app while kamal makes creating / managing a reverse proxy - as well as the required self-signed SSL certs using letsencrypt - a total breeze.
+A simple recipe for self-hosting [quakejs](https://github.com/inolen/quakejs) with **HTTPS and multiplayer support** using [Kamal 2](https://kamal-deploy.org/). Kamal handles the reverse proxy, SSL certificates via Let's Encrypt, and Docker deployment automatically.
 
 <p align="center">
 <img align="center" src="https://github.com/jermwatt/readme_gifs/blob/main/kamal-quake-demo.webp" height="325">
 </p>
 
-A table of contents for recommended setup and deployment using this pattern is below:
+## Quick Start
 
-- [hosting requirements](#hosting-requirements)
-  - [hosting provider](#hosting-provider)
-  - [minimum machine specs](#minimum-machine-specs)
-  - [docker registry](#docker-registry)
-  - [ssh into your machine](#ssh-into-your-machine)
-  - [firewall ports](#firewall-ports)
-- [kamal deployment](#kamal-deployment)
-  - [installing kamal](#installing-kamal)
-  - [customizing the config](#customizing-the-config)
-  - [deploy](#deploy)
-- [multiplayer gaming](#multiplayer-gaming)
-  - [what every player should see](#what-every-player-should-see)
-  - [keyboard controls](#keyboard-controls)
-  - [creating a multiplayer game](#creating-a-multiplayer-game)
-  - [joining a multiplayer game](#joining-a-multiplayer-game)
-- [remaining challenges](#remaining-challenges)
+### 1. Prerequisites
 
-## hosting requirements
+- A VPS with at least 1GB RAM
+- A domain pointing to your VPS IP
+- Docker registry (GitHub Container Registry, Docker Hub, etc.)
+- Ruby installed (`gem install kamal`)
 
-### hosting providers
+### 2. VPS Setup
 
-Any hosting provider - including a self-hosted machine - is just fine. Kamal makes the setup / deployment process using any available machine - regardless of provider - the same.
-
-### minimum machine specs
-
-A minimum of 1 GB of ram is recommended [by the creators of quakejs](https://github.com/inolen/quakejs).
-
-### docker registry
-
-Kamal 2 currently requires an available registry to push your version of the image to. Any docker registry (e.g., github, dockerhub, etc.,) works fine. All you need is your registry name and login secret.
-
-The Kamal team is working to relax this requirement so that in the future no registry will be required.
-
-### ssh into your machine
-
-After ssh-ing into your machine, create a docker user group
+SSH into your VPS and configure Docker permissions:
 
 ```bash
 sudo groupadd docker
+sudo usermod -aG docker $USER
 ```
 
-Next, add your default user to the docker user group
+Open these firewall ports:
+- **443** - HTTPS traffic
+- **27961** - WebSocket multiplayer
 
-```bash
-sudo usermod -aG docker <default user name>
-```
+### 3. Configure
 
-### firewall ports
-
-Depending on your choice of usage (http vs https) certain ports must be left open on the security settings / firewall of your hosting instance
-
-- **for http usage:** ports 80 and 27960 must be set open to the web
-- **for https usage:** ports 443 and 27960 must be set open to the web
-
-If this is **not** done, you will be stuck in the loading screen of the game.
-
-## kamal deployment
-
-### installing kamal
-
-Once you've setup a hosting machine and docker registry as described above, you are ready to setup / deploy your instance of quakejs (using http or https at your discretion).
-
-First install kamal
-
-```bash
-gem install kamal
-```
-
-If you need to install ruby first [follow these instructions](https://www.ruby-lang.org/en/documentation/installation/).
-
-### customizing the config
-
-Next pull this repository and adjust its kamal deployment config file, located at
-
-```bash
-config/deployyml`
-```
-
-This config file is repeated below, with `#TODO` annotations indicating the key-value pairs you must customize. These include the IP address of your machine, your url, docker registry, and docker registry credentials.
+Clone this repo and edit `config/deploy.yml`:
 
 ```yaml
-service: quakejs # <-- (optional) replace with the name of your service
-image: <your-username>/<your-image> # TODO
 servers:
   web:
     hosts:
-      - <IP address of your machine> # TODO
-    options:
-      publish:
-        - "27961:27961" # <-- for https usage
-        - "27960:27960" # <-- for http usage
-      expose:
-        - "80"
+      - YOUR_VPS_IP           # Your server IP
 
 proxy:
-  ssl: true
-  host: <your-web-address.xyz> # TODO
-  app_port: 80
-  healthcheck:
-    interval: 3
-    path: /
-    timeout: 10
+  host: your-domain.xyz       # Your domain
 
 env:
-  SERVER: <your-web-address.xyz> # TODO
-  HTTP_PORT: 80
-
-registry:
-  server: <your docker registry> # TODO
-  username: <your docker registry username> # TODO
-  password:
-    - <your docker registry password> #TODO
-
-builder:
-  arch: amd64
+  SERVER: your-domain.xyz     # Same domain
 
 ssh:
-  user: ubuntu
+  keys:
+    - ~/.ssh/your-key.pem     # Your SSH key path
 ```
 
-### deploy
+Set your registry token in `.kamal/secrets`:
 
-With the previous steps completed, execute the following at the root of this repository to create your instance of quakejs.
+```bash
+GITHUB_REGISTRY_TOKEN=$(cat .env)  # Or your token directly
+```
+
+### 4. Deploy
 
 ```bash
 kamal setup
 ```
 
-This will pull all requisite images, push your version to your preferred docker registry, setup a reverse proxy for https, and create requisite SSL certs via letsencrypt.
+Visit `https://your-domain.xyz` to play!
 
+## Architecture
 
-## creating a multiplayer game
+```
+Browser → HTTPS (443) → kamal-proxy → Apache (80) → Game assets
+Browser → WSS (27961) → wssproxy → Game server (27960)
+```
 
-### what every player should see
+Kamal-proxy handles SSL termination. The container runs a WSS proxy on port 27961 that terminates TLS using the same certificates and forwards to the internal game server.
 
-Every player should see the following sequence of screens **when they first visit your url**. These screens correctly cue the player to accept game asset download to their browser, and show download progress of game assets.
+## Multiplayer
 
-#### Screen 1: install accept screen
+### Starting a Game
 
-The first screen every user should see is shown below. It requests permission from the player to download game assets to their chosen browser.
+1. Visit your URL - you'll see the asset download screen
+2. Once loaded, press `Escape` to open the menu
+3. Navigate to `Multiplayer` → Create a game
 
-<p align="center">
-<img align="center" src="https://github.com/neonwatty/kamal-quake/blob/main/assets/images/first_user_screen.png" height="325">
-</p>
+### Joining a Game
 
-#### Screen 2: download progress screen
+New players are automatically connected to active games. If not, press `Escape` → `Multiplayer` → Select the game.
 
-The next screen every user should see is shown below. It shows the download progress (to their browser) of game assets.
+## Troubleshooting
 
-<p align="center">
-<img align="center" src="https://github.com/neonwatty/kamal-quake/blob/main/assets/images/second_user_screen.png" height="325">
-</p>
+**Stuck on loading screen?** Check firewall ports 443 and 27961 are open.
 
-#### Screen 3: player lobby screen
+**SSL errors?** Ensure your domain DNS is properly configured and pointing to your VPS IP.
 
-Once all assets are downloaded the player enters a lobby screen that will look like the one below.
-
-If no multiplayer game has been created, players will stay in this screen forever.
-
-<p align="center">
-<img align="center" src="https://github.com/neonwatty/kamal-quake/blob/main/assets/images/third_user_screen.png" height="325">
-</p>
-
-#### Screen 4: game options menu
-
-The game host / first player should create a multiplayer game by pressing `escape` to enter the game options menu.
-
-From there a game may be setup by navigating to the `multiplayer` option in the menu.
-
-<p align="center">
-<img align="center" src="https://github.com/neonwatty/kamal-quake/blob/main/assets/images/game_setup_screen.png" height="325">
-</p>
-
-## joining a multiplayer game
-
-Once a multiplayer game is started every new player will be directed to it automatically.  
-
-If this does not happen press escape to access the game menu.  Navigate to multiplayer games, and choose the game you wish to join.
-
-## Remaining challenges
-
-- **Proper secure socket wss setup**: at present this limits play to single player.  The fork of quakejs used under the hoo details secure setup in the section titled [Running Secure Servers (Content, Dedicated, and Web) Quick-Start](https://github.com/begleysm/quakejs?tab=readme-ov-file#baseq3-server-step-by-step), perhaps there is a clue there on how to proceed.
-
+**Multiplayer not working?** The WSS proxy starts automatically when SSL certificates are detected. Check container logs with `kamal app logs`.
