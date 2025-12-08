@@ -1,6 +1,6 @@
-# kamal-quake
+# kamal-quake [![Discord](https://img.shields.io/badge/Discord-Join%20Server-7289da?style=flat&logo=discord&logoColor=white)](https://discord.gg/nkeZbsc4gV)
 
-A simple recipe for self-hosting [quakejs](https://github.com/inolen/quakejs) with **HTTPS and multiplayer support** using [Kamal 2](https://kamal-deploy.org/). Kamal handles the reverse proxy, SSL certificates via Let's Encrypt, and Docker deployment automatically.
+A simple recipe for self-hosting [quakejs](https://github.com/inolen/quakejs) with **HTTPS and multiplayer support** using [Kamal 2](https://kamal-deploy.org/). Kamal handles the reverse proxy, SSL certificates via Let's Encrypt, and Docker deployment automatically.  [Join us on Discord](https://discord.gg/nkeZbsc4gV) to discuss further improvements, new features, and game times!
 
 <p align="center">
 <img align="center" src="https://github.com/jermwatt/readme_gifs/blob/main/kamal-quake-demo.webp" height="325">
