@@ -2,6 +2,8 @@
 
 A simple recipe for self-hosting [quakejs](https://github.com/inolen/quakejs) with **HTTPS and multiplayer support** using [Kamal 2](https://kamal-deploy.org/). Kamal handles the reverse proxy, SSL certificates via Let's Encrypt, and Docker deployment automatically.  [Join us on Discord](https://discord.gg/nkeZbsc4gV) to discuss further improvements, new features, and game times!
 
+> **Read the backstory:** [Claude Code Helped Me Bring Quake to the Browser with HTTPS and Multiplayer](https://neonwatty.com/posts/claude-code-quake/) — how AI pair programming helped finally ship this stalled project.
+
 <p align="center">
 <img align="center" src="https://github.com/jermwatt/readme_gifs/blob/main/kamal-quake-demo.webp" height="325">
 </p>
